@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" ng-app="example">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <!-- data-ng-init="" -->
+ <body >
+	<div id="" class="container" data-ng-controller="exampleCt">
+		<!-- <p>Name:</p>
+		<input type="text" data-ng-model="name" />{{name}} -->
+
+		<p>Name:</p><input type="text" data-ng-model="bio.name" />
+		<p>city:</p><input type="text" data-ng-model="bio.city" />
+
+		<ul>
+			<li data-ng-repeat="cust in customers | orderBy:'name'">{{cust.name | uppercase}} - {{cust.city}}</li>
+		</ul> 
+		<input type="button" id="add" class="button" data-ng-click="addLi(bio)" value="Add">
+		<input type="button" id="remove" class="button" data-ng-click="removeLi(customers)" value="Remove">
+
+		<br/>
+		<br/>
+		<label data-ng-repeat="customer in customer1" for="{{customer}}">
+			{{customer}}
+			<input type="radio" data-ng-value="customer" data-ng-model="defaultCustomer.select"  name="favorite" id="{{customer}}"/>
+		</label>
+		<p>You are choosing:{{defaultCustomer.select}}</p>
+
+		
+		<div id="" class="">
+			<form method="post" action="" name="validation">
+				<div>
+					<input type="text" data-ng-model="user.fname" name="fName" placeholder="Name" required>
+					<span data-ng-show="submitted && validation.fName.$error.required">First name is required</span>
+					<br/>
+					<input type="text" data-ng-model="user.city" name="city" placeholder="City" required>
+					<span data-ng-show="submitted && validation.city.$error.required">City is required</span><br/>
+					<input type="email" data-ng-model="user.email" name="email" placeholder="Email" required>
+					<span data-ng-show="submitted && validation.email.$error.required">Email is required</span>
+					<span data-ng-show="submitted && validation.email.$error.email">Email is invalid</span>
+					<br/>
+					<br/>
+					<input type="submit" value="Save" data-ng-disabled="" ng-click="submitted=true">
+					<span data-ng-show="registered">You are sucessfully registered.</span>
+				</div>
+			</form>
+		</div>
+
+		<student name="raja"></student><br/>
+		<student name="siva"><student>
+		
+	</div>
+  <!-- <script src="assets/js/jquery_1-11.js"></script> -->
+  <script src="assets/js/angular.min.js"></script>
+  
+	<script>
+	var exampleApp = angular.module("example",[]);
+
+	exampleApp.controller("exampleCt", function($scope){
+		$scope.name = name;	
+		$scope.customers= [{name:'john', city:'us'}, {name:'raja', city:'london'}, {name:'bala', city:'aus'}, {name:'siva', city:'ind'}, ];
+
+		$scope.customer1= ['john', 'raja', 'bala', 'siva' ];
+
+		$scope.defaultCustomer = {select:"siva"}; 
+
+		$scope.addLi = function(bio){
+			$scope.customers.push(angular.copy(bio));
+			$scope.bio={};
+		}
+
+		$scope.removeLi = function(customers){
+			$scope.customers.splice(customers,1)
+		}
+		
+		$scope.raja = {};
+		$scope.raja.name = "raja";
+		$scope.raja.city = "bangalore";
+
+		$scope.siva = {};
+		$scope.siva.name = "siva";
+		$scope.siva.city = "chennai";
+
+	})
+
+	exampleApp.directive("student", function(){
+		var directive = {};
+		directive.restrict = "E";
+		directive.template = "Name: {{student.name}}, City:{{student.city}}";
+		directive.scope = {
+			student : "=name"
+		}
+		directive.compile = function(element, attributes) {
+		   element.css("border", "1px solid #cccccc");
+		   
+		   var linkFunction = function($scope, element, attributes) {
+			  element.html("Student: <b>"+$scope.student.name +"</b> , Roll No: <b>"+$scope.student.city+"</b><br/>");
+			  element.css("background-color", "#ff00ff");
+		   }
+		   return linkFunction;
+		}
+		return directive;
+
+	});
+
+	//exampleApp.controller("formValidation",function($scope){
+		
+	//});
+	</script>
+ </body>
+</html>
